@@ -17,6 +17,9 @@ public class ExampleUnitTest {
 
     @Test
     public void testData() {
-        
+        Solution solution = new Solution();
+        int[] num2 = new int[]{1, 4, 6, 6};
+        int[] num1 = new int[]{0, 2, 2, 3};
+        System.out.println("logcat: size = " + solution.findMedianSortedArrays(num1, num2));
     }
 }
