@@ -126,7 +126,9 @@ public class Solution {
         int length = nums.length;
         if (0 == length) return result;
         boolean isEven = 0 == length % 2;
-        int medianLength = (int) length / 2 - 1;
+        // 整数除整数，商是整数，所以最好在被除数加小数点
+//        int medianLength = (int) length / 2 - 1;
+        int medianLength = (int) (length / 2.0 - 1);
         if (isEven) {
             result = (nums[medianLength] + nums[medianLength + 1]) / 2.0;
         } else {
@@ -140,30 +142,19 @@ public class Solution {
         if (null == s) return "";
 
         String resultStr = "";
-        Map<Character, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (map.containsKey(s.charAt(i))) {
-                List<Integer> list = map.get(s.charAt(i));
-                if (null != list) {
-                    list.add(i);
-                }
-            } else {
-                List<Integer> list = new ArrayList<>();
-                list.add(i);
-                map.put(s.charAt(i), list);
-            }
-        }
-
-        for (Character c : map.keySet()) {
-            List<Integer> list = map.get(c);
-            if (null == list) continue;
-            if (1 >= list.size() && resultStr.length() < 1) {
-                resultStr = s.charAt(list.get(0)) + "";
+        int pos = 0, w = 0, length = s.length();
+        for (int i = 0; i < length; i++) {
+            if (0 == i) {
                 continue;
             }
-            for (int i = 1; i < list.size(); i++) {
-                if (resultStr.length() < list.get(i) - list.get(i - 1)) {
-                    resultStr = s.substring(list.get(i - 1), list.get(i) + 1);
+
+            for (int j = i - 1; j >= 0; j--) {
+                if (s.charAt(j) == s.charAt(2 * i - 1)) {
+                    int iW = i - j;
+                    if (iW > w) {
+                        w = iW;
+                        pos = i;
+                    }
                 }
             }
         }
