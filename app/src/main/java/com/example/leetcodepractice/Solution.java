@@ -137,28 +137,88 @@ public class Solution {
         return result;
     }
 
-    // 5、最长回文子串
+    // 5. 最长回文子串
     public String longestPalindrome(String s) {
-        if (null == s) return "";
+        if (null == s || 0 == s.length()) return "";
 
-        String resultStr = "";
+        String subStr1 = "";
         int pos = 0, w = 0, length = s.length();
         for (int i = 0; i < length; i++) {
-            if (0 == i) {
-                continue;
-            }
-
-            for (int j = i - 1; j >= 0; j--) {
-                if (s.charAt(j) == s.charAt(2 * i - 1)) {
-                    int iW = i - j;
-                    if (iW > w) {
-                        w = iW;
+            for (int j = 0; i - j >= 0 && i + j < length; j++) {
+                if (s.charAt(i + j) == s.charAt(i - j)) {
+                    if (j > w) {
+                        w = j;
                         pos = i;
                     }
+                } else {
+                    break;
                 }
             }
         }
+        subStr1 = s.substring(pos - w, pos + w + 1);
 
-        return resultStr;
+        String subStr2 = "";
+        int pos2 = 0, w2 = -1;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; i + j + 1 < length && i - j >= 0; j++) {
+                if (s.charAt(i - j) == s.charAt(i + j + 1)) {
+                    if (j > w2) {
+                        w2 = j;
+                        pos2 = i;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        subStr2 = s.substring(pos2 - (-1 == w2 ? 0 : w2), pos2 + w2 + 2);
+
+        return subStr1.length() > subStr2.length() ? subStr1 : subStr2;
+    }
+
+    // 6. Z 字形变换
+    public String convert(String s, int numRows) {
+        if (null == s || 0 == s.length() || 0 == numRows || 1 == numRows) return s;
+
+        ArrayList<ArrayList<Character>> rowList = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            rowList.add(new ArrayList<>());
+        }
+
+        boolean add = true;
+        int pos = 0;
+        for (int i = 0; i < s.length(); i++) {
+            rowList.get(pos).add(s.charAt(i));
+            if (0 == pos % numRows) {
+                add = true;
+            } else if (numRows - 1 == pos % numRows) {
+                add = false;
+            }
+            if (add) {
+                pos += 1;
+            } else {
+                pos -= 1;
+            }
+        }
+
+        StringBuilder resultStr = new StringBuilder();
+        for (ArrayList<Character> charList : rowList) {
+            for (Character character : charList) {
+                resultStr.append(character);
+            }
+        }
+        return resultStr.toString();
+    }
+
+    // 6. Z 字形变换，应该有第二种方法，是一个公式，但是我暂时没想出来
+    public String convert2(String s, int numRows) {
+        if (null == s || 0 == s.length() || 0 == numRows || 1 == numRows) return s;
+
+        char[] charS = s.toCharArray();
+
+        for (int i = 0; i < s.length(); i++) {
+            charS[i] = s.charAt(i);
+        }
+        return String.valueOf(charS);
     }
 }
