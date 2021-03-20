@@ -10,7 +10,19 @@ import java.util.Map;
 public class Solution {
     private static final String TAG = "logcat";
 
-    // 1. 两数之和，使用数组循环方法
+    /**
+     * 问题：
+     * 1. 两数之和，使用数组循环方法
+     * 描述：
+     * 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。
+     * 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+     * 你可以按任意顺序返回答案。
+     * 解决方法：
+     * 使用数组循环方法，循环查找目标值
+     * @param nums, 2 <= nums.length <= 103, -109 <= nums[i] <= 109, -109 <= target <= 109
+     * @param target, 整数目标值
+     * @return 只会存在一个有效答案
+     */
     public int[] twoSumByArray(int[] nums, int target) {
         int maxTarget = (int) Math.pow(10, 9);
         if (2 <= nums.length && nums.length <= Math.pow(10, 3) && maxTarget >= Math.abs(target)) {
@@ -27,7 +39,19 @@ public class Solution {
         return null;
     }
 
-    // 1. 两数之和，使用哈希表方法，相比数组循环方法，时间复杂度较低，空间复杂度较高
+    /**
+     * 问题：
+     * 1. 两数之和，使用数组循环方法
+     * 描述：
+     * 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。
+     * 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+     * 你可以按任意顺序返回答案。
+     * 解决方法：
+     * 使用哈希表方法，相比数组循环方法，时间复杂度较低，空间复杂度较高。
+     * @param nums, 2 <= nums.length <= 103, -109 <= nums[i] <= 109, -109 <= target <= 109
+     * @param target, 整数目标值
+     * @return 只会存在一个有效答案
+     */
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -39,7 +63,19 @@ public class Solution {
         return null;
     }
 
-    // 2. 两数相加，使用链表
+    /**
+     * 问题：
+     * 2. 两数相加，使用链表
+     * 描述：
+     * 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+     * 请你将两个数相加，并以相同形式返回一个表示和的链表。
+     * 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     * 解决方法：
+     * 两数相加，大于10需要进位。
+     * @param l1, 每个链表中的节点数在范围 [1, 100] 内, 0 <= Node.val <= 9, 题目数据保证列表表示的数字不含前导零
+     * @param l2, 每个链表中的节点数在范围 [1, 100] 内, 0 <= Node.val <= 9, 题目数据保证列表表示的数字不含前导零
+     * @return
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode head = null;
         ListNode tail = null;
@@ -61,13 +97,27 @@ public class Solution {
         return head;
     }
 
-    // 2. 两数相加的子方法，链表元素相加
+    /**
+     * 2. 两数相加的子方法，链表元素相加
+     * @param val1
+     * @param val2
+     * @return
+     */
     public int[] addTwoNumbersSum(int val1, int val2) {
         int sum = val1 + val2;
         return new int[]{sum % 10, sum >= 10 ? 1 : 0};
     }
 
-    // 3. 无重复字符的最长子串
+    /**
+     * 问题：
+     * 3. 无重复字符的最长子串
+     * 描述：
+     * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     * 解决方法：
+     * 使用滑动窗口，
+     * @param s, 0 <= s.length <= 5 * 104, 由英文字母、数字、符号和空格组成
+     * @return
+     */
     public int lengthOfLongestSubstring(String s) {
         if (null == s) return 0;
 
@@ -220,5 +270,23 @@ public class Solution {
             charS[i] = s.charAt(i);
         }
         return String.valueOf(charS);
+    }
+
+    // 7. 整数反转
+    public int reverse(int x) {
+        try {
+            int result = 0;
+            int max = (int) Math.pow(2, 31);
+            int length = String.valueOf(Math.abs(x)).length();
+            for (int i = 1; i <= length; i++) {
+                int y = x % 10;
+                x /= 10;
+                result = (int) (result + y * Math.pow(10, length - i));
+                if (result >= max || result <= -max) return 0;
+            }
+            return result;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }
